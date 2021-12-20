@@ -2,7 +2,7 @@ import { useState, useCallback, FormEvent } from 'react';
 
 import Modal from 'react-modal';
 
-import { api } from '../../services/api';
+import { useTransactions } from '../../TransactionsContext';
 
 import incomeImg from '../../assets/income.svg';
 import outcomeImg from '../../assets/outcome.svg';
@@ -16,6 +16,8 @@ interface INewTransactionModalProps {
 }
 
 const NewTransactionModal = ({ isOpen, onRequestClose}: INewTransactionModalProps) => {
+  const { createTransaction } = useTransactions();
+
   const [title, setTitle] = useState('');
   const [value, setValue] = useState(0);
   const [type, setType] = useState<'deposit' | 'withdraw'>('deposit');
@@ -31,9 +33,9 @@ const NewTransactionModal = ({ isOpen, onRequestClose}: INewTransactionModalProp
       category
     }
 
-    api.post('/transactions', data)
+    createTransaction(data)
 
-  }, [category, title, type, value]);
+  }, [category, title, type, value, createTransaction]);
 
   return (
     <Modal
