@@ -23,19 +23,26 @@ const NewTransactionModal = ({ isOpen, onRequestClose}: INewTransactionModalProp
   const [type, setType] = useState<'deposit' | 'withdraw'>('deposit');
   const [category, setCategory] = useState('');
 
-  const handleCreateNewTransaction = useCallback((event: FormEvent) => {
+  const handleCreateNewTransaction = useCallback(async (event: FormEvent) => {
     event.preventDefault();
 
     const data = {
       title,
       value,
       type,
-      category
+      category,
+      createdAt: new Date(),
     }
 
-    createTransaction(data)
+    await createTransaction(data);
 
-  }, [category, title, type, value, createTransaction]);
+    setTitle('');
+    setValue(0);
+    setType('deposit');
+    setCategory('');
+    onRequestClose()
+
+  }, [category, title, type, value, createTransaction, onRequestClose]);
 
   return (
     <Modal
