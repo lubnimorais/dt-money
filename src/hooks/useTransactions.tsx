@@ -1,7 +1,7 @@
 import { createContext, ReactNode, 
   useContext, useEffect, useState, useCallback } from 'react';
 
-import { api } from './services/api';
+import { api } from '../services/api';
 
 interface ITransaction {
   id: number;
